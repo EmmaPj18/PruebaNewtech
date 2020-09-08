@@ -24,11 +24,13 @@ namespace PruebaNewtech.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddJsonOptions(config =>
-            {
-                config.JsonSerializerOptions.WriteIndented = true;
-                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            });
+            services.AddControllersWithViews()
+                .AddJsonOptions(config =>
+                {
+                    config.JsonSerializerOptions.WriteIndented = true;
+                    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                })
+                .AddRazorRuntimeCompilation();
 
             HttpClient httpClient = new HttpClient()
             {
@@ -36,6 +38,7 @@ namespace PruebaNewtech.Web
             };
 
             services.AddSingleton(httpClient);
+            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

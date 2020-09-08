@@ -1,28 +1,43 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using PruebaNewtech.BOL;
+using PruebaNewtech.Web.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using PruebaNewtech.BOL;
-using PruebaNewtech.Web.Models;
+using X.PagedList;
 
 namespace PruebaNewtech.Web.Controllers
 {
     public class HomeController : Controller
     {
         public HttpClient Client { get; set; }
+        public int PageSize { get; set; }
 
-        public HomeController(HttpClient Client)
+        public HomeController(HttpClient Client, IConfiguration configuration)
         {
             this.Client = Client;
+            PageSize = int.Parse(configuration["PageSize"]);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var httpResponse = await Client.GetAsync("books/");
             var result = await httpResponse.Content.ReadAsStringAsync();
 
@@ -31,7 +46,13 @@ namespace PruebaNewtech.Web.Controllers
                 PropertyNameCaseInsensitive = true
             });
 
-            return View(books);
+            if (!string.IsNullOrEmpty(searchString))
+                books = books.Where(s => s.Description.Contains(searchString) || s.Title.Contains(searchString))
+                    .ToList();
+
+            int pageNumber = (page ?? 1);
+
+            return View(books.ToPagedList(pageNumber, PageSize));
         }
 
         public async Task<IActionResult> Details(int id)
@@ -44,15 +65,19 @@ namespace PruebaNewtech.Web.Controllers
                 PropertyNameCaseInsensitive = true
             });
 
+            if (book == null) return View("Index");
+
             var authorHttpResponse = await Client.GetAsync($"authors/books/{book.ID}");
             var authorResult = await authorHttpResponse.Content.ReadAsStringAsync();
 
-            var author = JsonSerializer.Deserialize<Authors>(authorResult, new JsonSerializerOptions
+            var authors = JsonSerializer.Deserialize<IList<Authors>>(authorResult, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return View(new BooksAuthorViewModel { Book = book, Author = author });
+            if (authors == null) return View("Index");
+
+            return View(new BooksAuthorViewModel { Book = book, Author = authors });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
