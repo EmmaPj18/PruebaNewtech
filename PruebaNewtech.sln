@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaNewtech.API", "PruebaNewtech.API\PruebaNewtech.API.csproj", "{906732EF-429A-4303-897B-BDB36BAA04A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaNewtech.BOL", "PruebaNewtech.BOL\PruebaNewtech.BOL.csproj", "{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{906732EF-429A-4303-897B-BDB36BAA04A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{906732EF-429A-4303-897B-BDB36BAA04A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{906732EF-429A-4303-897B-BDB36BAA04A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

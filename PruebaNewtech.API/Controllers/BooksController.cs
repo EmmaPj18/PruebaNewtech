@@ -26,7 +26,7 @@ namespace PruebaNewtech.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int id)
         {
             return Ok();
         }
@@ -38,13 +38,13 @@ namespace PruebaNewtech.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(int id)
         {
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(int id)
         {
             return Ok();
         }
