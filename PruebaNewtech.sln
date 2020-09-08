@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaNewtech.API", "Prueba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaNewtech.BOL", "PruebaNewtech.BOL\PruebaNewtech.BOL.csproj", "{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaNewtech.Web", "PruebaNewtech.Web\PruebaNewtech.Web.csproj", "{E3002418-D4E2-4440-B0C9-2912D0C5A8B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3EF307A-8503-4F51-BDE5-9B05C6060BE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3002418-D4E2-4440-B0C9-2912D0C5A8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3002418-D4E2-4440-B0C9-2912D0C5A8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3002418-D4E2-4440-B0C9-2912D0C5A8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3002418-D4E2-4440-B0C9-2912D0C5A8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
