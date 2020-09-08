@@ -22,14 +22,14 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet("books/{idBook}")]
         public async Task<IActionResult> GetByBook(int idBook)
         {
-            var httpResponse = await Client.GetAsync($"/api/authors/books/{idBook}");
+            var httpResponse = await Client.GetAsync($"/authors/books/{idBook}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
-            var author = JsonSerializer.Deserialize<Authors>(response);
+            var authors = JsonSerializer.Deserialize<IList<Authors>>(response);
 
-            if (author == null) return NotFound();
+            if (authors == null) return NotFound();
 
-            return Ok(author);
+            return Ok(authors);
         }
 
         [HttpGet]
