@@ -34,6 +34,27 @@ namespace PruebaNewtech.Web.Controllers
             return View(books);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var httpResponse = await Client.GetAsync($"books/{id}");
+            var result = await httpResponse.Content.ReadAsStringAsync();
+
+            var book = JsonSerializer.Deserialize<Books>(result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            var authorHttpResponse = await Client.GetAsync($"authors/books/{book.ID}");
+            var authorResult = await authorHttpResponse.Content.ReadAsStringAsync();
+
+            var author = JsonSerializer.Deserialize<Authors>(authorResult, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return View(new BooksAuthorViewModel { Book = book, Author = author });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

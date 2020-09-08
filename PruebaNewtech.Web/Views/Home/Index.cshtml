@@ -3,44 +3,57 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="row">
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Title</td>
-                <td>Description</td>
-                <td>Page Count</td>
-                <td>Excerpt</td>
-                <td>Publish Date</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null || Model.Count > 0)
-            {
-                @foreach (var item in Model)
+    <div class="col-md-12">
+        <h1>Books</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-success">Add</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Page Count</td>
+                    <td>Excerpt</td>
+                    <td>Publish Date</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null || Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.Title</td>
+                            <td>@item.Description</td>
+                            <td>@item.PageCount</td>
+                            <td>@item.Excerpt</td>
+                            <td>@item.PublishDate</td>
+                            <td>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                <button class="btn btn-primary" data-id="@item.ID">Edit</button>
+                                <a class="btn btn-danger" asp-action="Details" asp-route-id="@item.ID">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>@item.ID</td>
-                        <td>@item.Title</td>
-                        <td>@item.Description</td>
-                        <td>@item.PageCount</td>
-                        <td>@item.Excerpt</td>
-                        <td>@item.PublishDate</td>
-                        <td>
-
-                        </td>
+                        <td colspan="7">There is any records</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="7">There is any records</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
