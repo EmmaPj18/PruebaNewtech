@@ -23,9 +23,8 @@ namespace PruebaNewtech.Web.Controllers
             PageSize = int.Parse(configuration["PageSize"]);
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index(string currentFilter, string searchString, int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
 
             if (searchString != null)
             {
@@ -47,7 +46,7 @@ namespace PruebaNewtech.Web.Controllers
             });
 
             if (!string.IsNullOrEmpty(searchString))
-                books = books.Where(s => s.Description.Contains(searchString) || s.Title.Contains(searchString))
+                books = books.Where(s => s.Description.Contains(searchString) || s.Title.Contains(searchString) || s.ID.ToString().Contains(searchString))
                     .ToList();
 
             int pageNumber = (page ?? 1);
