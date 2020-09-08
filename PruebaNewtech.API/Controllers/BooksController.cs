@@ -22,7 +22,7 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var httpResponse = await Client.GetAsync("/books");
+            var httpResponse = await Client.GetAsync("/api/books");
             var books = await httpResponse.Content.ReadAsStringAsync();
 
             return Ok(JsonSerializer.Deserialize<IList<Books>>(books));
@@ -31,7 +31,7 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var httpResponse = await Client.GetAsync($"/books/{id}");
+            var httpResponse = await Client.GetAsync($"/api/books/{id}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
             var book = JsonSerializer.Deserialize<Books>(response);
@@ -47,7 +47,7 @@ namespace PruebaNewtech.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var httpResponse = await Client.PostAsync("/books/",
+            var httpResponse = await Client.PostAsync("/api/books/",
                 new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
 
             var response = await httpResponse.Content.ReadAsStringAsync();
@@ -56,7 +56,7 @@ namespace PruebaNewtech.API.Controllers
 
             if (book == null) return NotFound();
 
-            return Created($"/books/{book.ID}", book);
+            return Created($"/api/books/{book.ID}", book);
         }
 
         [HttpPut("{id}")]
@@ -64,7 +64,7 @@ namespace PruebaNewtech.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var httpResponse = await Client.PutAsync($"/book/{id}",
+            var httpResponse = await Client.PutAsync($"/api/book/{id}",
                 new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
 
             var response = await httpResponse.Content.ReadAsStringAsync();
@@ -79,14 +79,14 @@ namespace PruebaNewtech.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var httpResponse = await Client.GetAsync($"/books/{id}");
+            var httpResponse = await Client.GetAsync($"/api/books/{id}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
             var book = JsonSerializer.Deserialize<Books>(response);
 
             if (book == null) return NotFound();
 
-            await Client.DeleteAsync($"/books/{id}");
+            await Client.DeleteAsync($"/api/books/{id}");
 
             return Ok(book);
         }

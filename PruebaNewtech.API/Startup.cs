@@ -29,6 +29,7 @@ namespace PruebaNewtech.API
             services.AddControllers().AddJsonOptions(config =>
             {
                 config.JsonSerializerOptions.WriteIndented = true;
+                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
             });
 
             HttpClient httpClient = new HttpClient()

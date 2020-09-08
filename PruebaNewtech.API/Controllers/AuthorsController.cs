@@ -22,7 +22,7 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet("books/{idBook}")]
         public async Task<IActionResult> GetByBook(int idBook)
         {
-            var httpResponse = await Client.GetAsync($"/authors/books/{idBook}");
+            var httpResponse = await Client.GetAsync($"/api/authors/books/{idBook}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
             var author = JsonSerializer.Deserialize<Authors>(response);
@@ -35,7 +35,7 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var httpResponse = await Client.GetAsync("/authors");
+            var httpResponse = await Client.GetAsync("/api/authors");
             var books = await httpResponse.Content.ReadAsStringAsync();
 
             return Ok(JsonSerializer.Deserialize<IList<Authors>>(books));
@@ -44,7 +44,7 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var httpResponse = await Client.GetAsync($"/authors/{id}");
+            var httpResponse = await Client.GetAsync($"/api/authors/{id}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
             var author = JsonSerializer.Deserialize<Authors>(response);
@@ -59,7 +59,7 @@ namespace PruebaNewtech.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var httpResponse = await Client.PostAsync("/authors/",
+            var httpResponse = await Client.PostAsync("/api/authors/",
                 new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
 
             var response = await httpResponse.Content.ReadAsStringAsync();
@@ -68,7 +68,7 @@ namespace PruebaNewtech.API.Controllers
 
             if (author == null) return NotFound();
 
-            return Created($"/authors/{author.ID}", author);
+            return Created($"/api/authors/{author.ID}", author);
         }
 
         [HttpPut("{id}")]
@@ -76,7 +76,7 @@ namespace PruebaNewtech.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var httpResponse = await Client.PutAsync($"/authors/{id}",
+            var httpResponse = await Client.PutAsync($"/api/authors/{id}",
                 new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
 
             var response = await httpResponse.Content.ReadAsStringAsync();
@@ -91,14 +91,14 @@ namespace PruebaNewtech.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var httpResponse = await Client.GetAsync($"/authors/{id}");
+            var httpResponse = await Client.GetAsync($"/api/authors/{id}");
             var response = await httpResponse.Content.ReadAsStringAsync();
 
             var author = JsonSerializer.Deserialize<Books>(response);
 
             if (author == null) return NotFound();
 
-            await Client.DeleteAsync($"/authors/{id}");
+            await Client.DeleteAsync($"/api/authors/{id}");
 
             return Ok(author);
         }
