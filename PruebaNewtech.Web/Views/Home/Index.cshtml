@@ -1,8 +1,46 @@
-﻿@{
+﻿@model IList<Books>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Page Count</td>
+                <td>Excerpt</td>
+                <td>Publish Date</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null || Model.Count > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td>@item.PageCount</td>
+                        <td>@item.Excerpt</td>
+                        <td>@item.PublishDate</td>
+                        <td>
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">There is any records</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
