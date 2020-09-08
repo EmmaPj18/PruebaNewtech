@@ -1,0 +1,66 @@
+﻿@model IPagedList<Books>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Books</h1>
+    </div>
+</div>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group mb-3">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder="Search" })
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-success">Add</button>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Publish Date</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null || Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.Title</td>
+                            <td>@item.Description</td>
+                            <td>@item.PublishDate</td>
+                            <td>
+                                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                <button class="btn btn-sm btn-primary" data-id="@item.ID">Edit</button>
+                                <button class="btn btn-sm btn-danger" data-id="@item.ID">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">There is any records</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
