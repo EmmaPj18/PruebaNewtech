@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using PruebaNewtech.BOL;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace PruebaNewtech.API.Controllers
 {
@@ -22,31 +22,73 @@ namespace PruebaNewtech.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            var httpResponse = await Client.GetAsync("/books");
+            var books = await httpResponse.Content.ReadAsStringAsync();
+
+            return Ok(JsonSerializer.Deserialize<IList<Books>>(books));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok();
+            var httpResponse = await Client.GetAsync($"/books/{id}");
+            var response = await httpResponse.Content.ReadAsStringAsync();
+
+            var book = JsonSerializer.Deserialize<Books>(response);
+
+            if (book == null) return NotFound();
+
+            return Ok(book);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create()
+        [HttpPost]
+        public async Task<IActionResult> Add(Books model)
         {
-            return Ok();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var httpResponse = await Client.PostAsync("/books/",
+                new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+
+            var response = await httpResponse.Content.ReadAsStringAsync();
+
+            var book = JsonSerializer.Deserialize<Books>(response);
+
+            if (book == null) return NotFound();
+
+            return Created($"/books/{book.ID}", book);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, Books model)
         {
-            return Ok();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var httpResponse = await Client.PutAsync($"/book/{id}",
+                new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+
+            var response = await httpResponse.Content.ReadAsStringAsync();
+
+            var book = JsonSerializer.Deserialize<Books>(response);
+
+            if (book == null) return NotFound();
+
+            return Ok(book);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok();
+            var httpResponse = await Client.GetAsync($"/books/{id}");
+            var response = await httpResponse.Content.ReadAsStringAsync();
+
+            var book = JsonSerializer.Deserialize<Books>(response);
+
+            if (book == null) return NotFound();
+
+            await Client.DeleteAsync($"/books/{id}");
+
+            return Ok(book);
         }
     }
 }
